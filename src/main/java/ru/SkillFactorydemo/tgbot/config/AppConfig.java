@@ -12,7 +12,6 @@ import ru.SkillFactorydemo.tgbot.dto.ValuteCursOnDate;
 import ru.SkillFactorydemo.tgbot.service.CentralRussianBankService;
 
 import javax.xml.soap.MessageFactory;
-//import jakarta.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPException;
 import java.nio.charset.StandardCharsets;
