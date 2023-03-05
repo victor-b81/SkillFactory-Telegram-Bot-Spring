@@ -68,10 +68,10 @@ public class BotService extends TelegramLongPollingBot {
                 activeChatRepository.save(activeChat);
             }
         } catch (TelegramApiException e) {
-            log.error("Возникла проблема при получении данных от сервисов ЦБ РФ", e);
+            log.error("Возникла проблема при получении данных от сервисов ЦБ РФ TelegramApiException", e);
             //e.printStackTrace();
         } catch (Exception e) {
-            log.error("Возникла проблема при получении данных от сервисов ЦБ РФ", e);
+            log.error("Возникла проблема при получении данных от сервисов ЦБ РФ Exception", e);
             //e.printStackTrace();
         }
     }

@@ -1,3 +1,11 @@
+/** AppConfig.java: файл конфигурации Spring приложения
+ *  Аннотация @Configuration: указывает, что класс может использоваться контейнером Spring IoC в качестве источника
+ *  определений bean-компонентов.
+ *  Аннотация @Bean: сообщает Spring, что метод, аннотированный @Bean, вернет объект, который должен быть зарегистрирован
+ *  как компонент в контексте приложения Spring.
+ *  В классе AppConfig создано два @Bean метода cbrService() и characterEncodingFilter()
+ * */
+
 package ru.SkillFactorydemo.tgbot.config;
 
 import org.springframework.context.annotation.Bean;
