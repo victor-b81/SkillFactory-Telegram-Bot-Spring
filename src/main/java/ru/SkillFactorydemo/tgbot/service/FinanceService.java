@@ -1,3 +1,9 @@
+/**
+ * FinanceService.java: сервисный класс предназначенный для обработки поступающих команд addincomes/addspend.
+ *    addFinanceOperation() - метод проверяющий, если operationType=="/addincomes" то записываем в базу данных,
+ *    в таблицу Incomes, иначе если любое другое значение(addspend) то записываем значение в базу данных, в таблицу Spend.
+ */
+
 package ru.SkillFactorydemo.tgbot.service;
 
 import lombok.RequiredArgsConstructor;
@@ -9,8 +15,8 @@ import ru.SkillFactorydemo.tgbot.repository.SpendRepository;
 
 import java.math.BigDecimal;
 
-@Service
-@RequiredArgsConstructor
+@Service    // Аннотация Spring, указывается что данный класс является сервисным, поставщика услуг.
+@RequiredArgsConstructor  // Аннотация lombok, для генерирования конструктора.
 public class FinanceService {
 
     private static final String ADD_INCOME = "/addincomes";

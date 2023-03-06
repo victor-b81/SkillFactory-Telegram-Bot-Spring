@@ -1,3 +1,15 @@
+/**
+ * BotService.java: сервисный класс предназначенный для работы с TelegramAPI.
+ * Включает в себя следующие методы:
+ *      onUpdateReceived() - метод обработки поступивших в чат телеграм бота сообщений.
+ *      start() - метод @PostConstruct, служит для вывода в лог информации и боте.
+ *      getBotUsername() - метод возвращает имя Telegram бота.
+ *      getBotToken() - метод возвращает TelegramAPI ключ бота.
+ *      sendNotificationToAllActiveChats() - метод рассылает сообщения во все активные чаты.
+ *      putPreviousCommand() - метод сохраняет список команд определенного чата.
+ *      getPreviousCommand() - метод получает список команд определенного чата.
+ */
+
 package ru.SkillFactorydemo.tgbot.service;
 
 import lombok.RequiredArgsConstructor;
@@ -21,26 +33,29 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Service //Данный класс является сервисом
-@Slf4j //Подключаем логирование из Lombok'a
-@RequiredArgsConstructor
+@Service    // Аннотация Spring, указывается что данный класс является сервисным, поставщика услуг.
+@Slf4j      // Подключаем логирование из lombok'a
+@RequiredArgsConstructor  // Аннотация lombok, для генерирования конструктора.
 public class BotService extends TelegramLongPollingBot {
-    private Map<Long, List<String>> previousCommands = new ConcurrentHashMap<>();
+    private Map<Long, List<String>> previousCommands = new ConcurrentHashMap<>(); // Коллекция истории команд.
 
+    // Присваиваем значения переменным для проверки поступивших команд.
     private static final String CURRENT_RATES = "/currentrates";
     private static final String ADD_INCOME = "/addincomes";
     private static final String ADD_SPEND = "/addspend";
 
+    // Объявляем сервисы
     private final CentralRussianBankService centralRussianBankService;
     private final FinanceService financeService;
     private final ActiveChatRepository activeChatRepository;
 
-    @Value("${bot.api.key}") //Сюда будет вставлено значение из application.properties, в котором будет указан api key, полученный от BotFather
+    @Value("${bot.api.key}")  // Аннотация Spring, Получаем из файла application.properties, api key - Телеграм бота
     private String apiKey;
 
-    @Value("${bot.name}") //Как будут звать нашего бота
+    @Value("${bot.name}")  // Аннотация Spring, Получаем из файла application.properties имя Телеграм бота
     private String name;
-    //Это основной метод, который связан с обработкой сообщений
+
+    // Данный метод, является основным и занимается обработкой полученных из чата Телеграм команд.
     @Override
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
@@ -76,23 +91,24 @@ public class BotService extends TelegramLongPollingBot {
         }
     }
 
-    //Данный метод будет вызван сразу после того, как данный бин будет создан - это обеспечено аннотацией Spring PostConstruct
-    @PostConstruct
+    // Данный метод выводит в лог имя бота, его токен и будет вызван сразу после того, как данный бин будет создан.
+    @PostConstruct  // Аннотация Spring, вызывает данные методы сразу после инициализации, данные методы работают даже если пусты.
     public void start() {
         log.info("username: {}, token: {}", name, apiKey);
     }
 
-    //Данный метод просто возвращает данные о имени бота и его необходимо переопределять
+    // Данный метод возвращает имя Telegram бота и его необходимо переопределять
     @Override
     public String getBotUsername() {
         return name;
     }
-    //Данный метод возвращает API ключ для взаимодействия с Telegram
+    // Данный метод возвращает TelegramAPI ключ бота и его необходимо переопределять
     @Override
     public String getBotToken() {
         return apiKey;
     }
 
+    // Данный метод рассылает сообщения во все активные чаты
     public void sendNotificationToAllActiveChats(String message, Set<Long> chatIds) {
         for (Long id : chatIds) {
             SendMessage sendMessage = new SendMessage();
@@ -106,7 +122,7 @@ public class BotService extends TelegramLongPollingBot {
         }
     }
 
-
+// Данный метод сохраняет список команд определенного чата
     private void putPreviousCommand(Long chatId, String command) {
         if (previousCommands.get(chatId) == null) {
             List<String> commands = new ArrayList<>();
@@ -117,6 +133,7 @@ public class BotService extends TelegramLongPollingBot {
         }
     }
 
+    // Данный метод получает список команд определенного чата
     private String getPreviousCommand(Long chatId) {
         return previousCommands.get(chatId)
                 .get(previousCommands.get(chatId).size() - 1);

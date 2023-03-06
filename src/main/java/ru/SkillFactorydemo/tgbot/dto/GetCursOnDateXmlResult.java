@@ -17,7 +17,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)   // Аннотация JAXB, указываем сериализацию полей XML
 public class GetCursOnDateXmlResult {
 
-    @XmlElementWrapper(name = "ValuteData", namespace = "")    //  Аннотация JAXB, указываем группу элементов XML
+    @XmlElementWrapper(name = "ValuteData", namespace = "")    // Аннотация JAXB, указываем группу элементов XML
     @XmlElement(name = "ValuteCursOnDate", namespace = "")    // Аннотация JAXB, указываем элемент XML
     private List<ValuteCursOnDate> valuteData = new ArrayList<>();
 }

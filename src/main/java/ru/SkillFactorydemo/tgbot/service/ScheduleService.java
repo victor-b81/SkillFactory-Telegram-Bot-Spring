@@ -1,22 +1,28 @@
+/**
+ * ScheduleService.java: сервисный класс Планировщик задач.
+ * Каждые три часа опрашивает сервис CentralRussianBankService, извлекает курсы валют, проверяет на изменения +/- 10 единиц.
+ * Если таковое изменение произошло, уведомляет всех пользователей Телеграм бота.
+ *
+ *    notifyAboutChangesInCurrencyRate() - метод реализующий функционал данного сервиса.
+ */
+
 package ru.SkillFactorydemo.tgbot.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import ru.SkillFactorydemo.tgbot.dto.ValuteCursOnDate;
 import ru.SkillFactorydemo.tgbot.entity.ActiveChat;
 import ru.SkillFactorydemo.tgbot.repository.ActiveChatRepository;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
-@RequiredArgsConstructor
+@Component      // Аннотация Spring, позволяет автоматически обнаруживать пользовательские bean-компоненты.
+@RequiredArgsConstructor  // Аннотация lombok, для генерирования конструктора.
 public class ScheduleService {
 
     private final ActiveChatRepository activeChatRepository;
@@ -24,7 +30,7 @@ public class ScheduleService {
     private final CentralRussianBankService centralRussianBankService;
     private final List<ValuteCursOnDate> previousRates = new ArrayList<>();
 
-    @Scheduled(cron = "0 0 0/3 ? * *")
+    @Scheduled(cron = "0 0 0/3 ? * *")      // Аннотация Spring, позволяет запланировать задание в формате cron, установлено 3 часа
     public void notifyAboutChangesInCurrencyRate() {
         try {
             List<ValuteCursOnDate> currentRates = centralRussianBankService.getCurrenciesFromCbr();

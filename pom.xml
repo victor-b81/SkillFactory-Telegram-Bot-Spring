@@ -54,7 +54,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web-services</artifactId>
 		</dependency>
-		<!-- Starter(сторонний) spring boot, позволяет автоматически регистрировать ботов в контексте Spring, -->
+		<!-- Starter(сторонний) spring boot, позволяет автоматически регистрировать телеграм ботов в контексте Spring, -->
 		<!-- а также использовать их как стандартные bean-компоненты Spring. -->
 		<dependency>
 			<groupId>com.github.xabgesagtx</groupId>

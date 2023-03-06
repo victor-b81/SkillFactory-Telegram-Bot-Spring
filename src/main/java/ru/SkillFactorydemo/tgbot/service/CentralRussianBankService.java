@@ -1,3 +1,9 @@
+/**
+ * CentralRussianBankService.java: сервисный класс предназначенный для работы с CbrAPI.
+ * Данный класс наследуется от WebServiceTemplate, что предоставляет удобный способ работы с сервисами SOAP.
+ * И включает в себя один метод getCurrenciesFromCbr(), который возвращает курсы валют с сайта ЦБР.
+ */
+
 package ru.SkillFactorydemo.tgbot.service;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -13,13 +19,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-//Данный класс наследуется от WebServiceTemplate, который предоставляет удобный способ взаимодействия с SOAP веб сервисами
 public class CentralRussianBankService extends WebServiceTemplate {
-    //Тут случается некоторая магия Spring и в момент запуска вашего приложения, сюда поставляется значение из application.properties или application.yml
-    @Value("${cbr.api.url}")
+    @Value("${cbr.api.url}")  // Аннотация Spring, получаем из файла application.properties, api url ссылку - сайта ЦБР
     private String cbrApiUrl;
 
-    //Создаем метод получения данных
+    // Данный метод возвращает курсы валют ЦБР на заданную дату
     public List<ValuteCursOnDate> getCurrenciesFromCbr() throws DatatypeConfigurationException {
         final GetCursOnDateXml getCursOnDateXML = new GetCursOnDateXml();
         GregorianCalendar cal = new GregorianCalendar();

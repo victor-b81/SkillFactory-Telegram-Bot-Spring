@@ -1,3 +1,8 @@
+/**
+ * Класс-тест для тестирования CurrencyControllerTest
+ * Проверка запроса курсов ЦБР
+ */
+
 package ru.SkillFactorydemo.tgbot.controllers;
 
 import org.junit.jupiter.api.Test;
@@ -15,15 +20,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CurrencyControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @Test
+    @Test  // Аннотация JUnit, указываем на данный метод как тестовый
     void getValuteCursOnDate() {
     }
 
-    @Test
+    @Test  // Аннотация JUnit, указываем на данный метод как тестовый
     void getStatsAboutIncomesThetGreater() {
     }
 
-    @Test
+    @Test  // Аннотация JUnit, указываем на данный метод как тестовый
     public void testWhenAskAboutAllCurrencies() throws Exception {
         mockMvc.perform(get("/getCurrencies"))
                 .andExpect(status().isOk())
