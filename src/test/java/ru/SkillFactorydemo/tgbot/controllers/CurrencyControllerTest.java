@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest     // Аннотация SpringBoot, указываем, что это тестовый класс
 @AutoConfigureMockMvc
 class CurrencyControllerTest {
     @Autowired
