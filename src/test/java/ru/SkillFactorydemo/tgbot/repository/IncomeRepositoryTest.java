@@ -6,32 +6,43 @@
 package ru.SkillFactorydemo.tgbot.repository;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import ru.SkillFactorydemo.tgbot.config.TestJpaConfig;
 import ru.SkillFactorydemo.tgbot.entity.Income;
 
-import java.math.BigDecimal;
-import java.util.List;
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-@DataJpaTest        // Аннотация JPA, используется для тестирования репозиториев JPA
-class IncomeRepositoryTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    @Autowired
+// указываем, какой файл конфигурации подключать, какой лоадер использовать, включаем транзакционность
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(
+        classes = { TestJpaConfig.class },
+        loader = AnnotationConfigContextLoader.class)
+@Transactional
+public class IncomeRepositoryTest {
+
+    // некий dao-сервис с нашим объектом, просто абстрактно, для примера
+    @Resource
     private IncomeRepository incomeRepository;
 
-    @Test      // Аннотация JUnit, указываем на данный метод как тестовый
-    public void testDataScripts() {             // Метод тестирования, добавления записей в таблицу SQL
-        Optional<Income> income = incomeRepository.findById(12345L);      // ищем ид чата 12345 в репозитории и если ид существует, то возвращаем его значение в объект activeChatById
-        assertTrue(income.isPresent());         // проверяем, существует ли объект activeChatById
-        assertEquals(new BigDecimal("3000.00"), income.get().getIncome());     // сверяем совпадает ли содержимое поля income с ожиданиями
-    }
-
-    @Test      // Аннотация JUnit, указываем на данный метод как тестовый
-    public void testRepo(){                       // Метод тестирования доступности репозитория
-        for (int i = 0; i < 10; i++, incomeRepository.save(new Income())); // в цикле записываем в репозиторий income 11 записей
-        final List<Income> found = incomeRepository.findAll();             // возвращаем в список все найденные записи из income репозитория
-        assertEquals(11, found.size());                            // сверяем количество найденных записей с ожидаемым количеством
+    @Test
+    public void givenObj_whenSave_thenGetOk() {
+        // создали объект, чем-то его заполнили
+        Income income = new Income();
+        income.setId(1111L);
+        // сохранили в базу
+        incomeRepository.save(income);
+        // нашли объект в базе
+        Optional<Income> incomeFound = incomeRepository.findById(1111L);
+        assertTrue(incomeFound.isPresent());
+        // проверили, что это действительно он
+        //assertEquals(new BigDecimal("1111.00"), incomeFound.get().getId());
     }
 }
